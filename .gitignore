@@ -53,3 +53,11 @@ KEY_LANDING_LILIA=landing-lilia
 KEY_LANDING_LILIA
 *.key
 *.pem
+
+# Secrets
+.env
+.env.*
+.env.local
+KEY_LANDING_LILIA
+*.key
+*.pem
