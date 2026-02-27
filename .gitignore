@@ -46,3 +46,10 @@ next-env.d.ts
 KEY_LANDING_LILIA=landing-lilia
 *.key
 *.pem
+# Secrets
+.env
+.env.*
+.env.local
+KEY_LANDING_LILIA
+*.key
+*.pem
