@@ -12,14 +12,13 @@ export async function sendDownloadEmail(params: {
   if (!senderEmail) throw new Error("BREVO_SENDER_EMAIL missing");
   if (!senderName) throw new Error("BREVO_SENDER_NAME missing");
 
-  const firstLine = params.toName?.trim()
-    ? `Bonjour ${params.toName.trim()},`
-    : "Bonjour,";
+  const hello = params.toName?.trim() ? `Bonjour ${params.toName.trim()},` : "Bonjour,";
 
   const htmlContent = `
   <div style="font-family:Arial,sans-serif;line-height:1.5;color:#111">
     <h2 style="margin:0 0 12px 0;">Votre guide est prêt ✅</h2>
-    <p style="margin:0 0 12px 0;">${firstLine}</p>
+    <p style="margin:0 0 12px 0;">${hello}</p>
+
     <p style="margin:0 0 16px 0;">
       Merci pour votre demande. Cliquez sur le bouton ci-dessous pour télécharger :
     </p>
@@ -32,7 +31,7 @@ export async function sendDownloadEmail(params: {
     </p>
 
     <p style="margin:0 0 8px 0;font-size:12px;color:#555;">
-      Ce lien est sécurisé et expire dans 48h.
+      Lien sécurisé (expire sous 48h).
     </p>
 
     <hr style="border:none;border-top:1px solid #eee;margin:18px 0;" />

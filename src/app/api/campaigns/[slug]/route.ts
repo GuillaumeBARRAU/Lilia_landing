@@ -9,7 +9,7 @@ export async function GET(
 
   const campaign = await prisma.campaign.findUnique({
     where: { slug },
-    select: { slug: true, title: true, description: true, isActive: true },
+    select: { id: true, isActive: true, title: true },
   });
 
   if (!campaign || !campaign.isActive) {
