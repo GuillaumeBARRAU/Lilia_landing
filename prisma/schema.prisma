@@ -6,8 +6,7 @@
 
 generator client {
   provider = "prisma-client"
-    output   = "../src/generated/prisma"
-
+  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -23,7 +22,7 @@ model Campaign {
   isActive    Boolean  @default(true)
   createdAt   DateTime @default(now())
 
-  leads       Lead[]
+  leads Lead[]
 
   tokens DownloadToken[]
 }
@@ -33,38 +32,49 @@ model Lead {
   campaignId String
   campaign   Campaign @relation(fields: [campaignId], references: [id])
 
-  email      String
-  phone      String?
-  firstName  String?
+  email     String
+  phone     String?
+  firstName String?
 
-  createdAt  DateTime @default(now())
+  createdAt DateTime @default(now())
 
-  consents   Consent[]
+  consents Consent[]
 
   tokens DownloadToken[]
 }
 
 model Consent {
-  id         String   @id @default(cuid())
-  leadId     String
-  lead       Lead     @relation(fields: [leadId], references: [id])
+  id     String @id @default(cuid())
+  leadId String
+  lead   Lead   @relation(fields: [leadId], references: [id])
 
-  type       String   // "PRIVACY" | "MARKETING"
+  type       String // "PRIVACY" | "MARKETING"
   acceptedAt DateTime @default(now())
   proof      Json
 }
+
 model DownloadToken {
-  id         String   @id @default(cuid())
-  token      String   @unique
+  id         String @id @default(cuid())
+  token      String @unique
   leadId     String
   campaignId String
 
-  lead       Lead     @relation(fields: [leadId], references: [id])
-  campaign   Campaign @relation(fields: [campaignId], references: [id])
+  lead     Lead     @relation(fields: [leadId], references: [id])
+  campaign Campaign @relation(fields: [campaignId], references: [id])
 
-  expiresAt  DateTime
-  usedAt     DateTime?
-  createdAt  DateTime @default(now())
-  downloadCount Int @default(0)
-  maxDownloads  Int @default(3)
+  expiresAt     DateTime
+  usedAt        DateTime?
+  createdAt     DateTime  @default(now())
+  downloadCount Int       @default(0)
+  maxDownloads  Int       @default(3)
+
+  downloadEvents DownloadEvent[]
+}
+
+model DownloadEvent {
+  id              String        @id @default(cuid())
+  downloadTokenId String
+  token           DownloadToken @relation(fields: [downloadTokenId], references: [id])
+
+  createdAt DateTime @default(now())
 }

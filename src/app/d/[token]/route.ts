@@ -10,23 +10,12 @@ export async function GET(
 
   const record = await prisma.downloadToken.findUnique({
     where: { token },
-    include: { campaign: true },
   });
 
-  if (!record) return new NextResponse("Invalid token", { status: 404 });
-  if (record.expiresAt < new Date()) return new NextResponse("Token expired", { status: 410 });
-  if (record.downloadCount >= record.maxDownloads) {
-  return new NextResponse("Download limit reached", { status: 410 });
-}
-  // MVP: on marque comme utilisé, puis on redirige vers un PDF local
-await prisma.downloadToken.update({
-  where: { id: record.id },
-  data: {
-    downloadCount: { increment: 1 },
-  },
-});
+  if (!record) {
+    return new NextResponse("Invalid token", { status: 404 });
+  }
 
-  // Mets un fichier PDF dans /public/guide.pdf pour tester
   if (record.expiresAt < new Date()) {
     return new NextResponse("Token expired", { status: 410 });
   }
@@ -35,16 +24,24 @@ await prisma.downloadToken.update({
     return new NextResponse("Download limit reached", { status: 410 });
   }
 
-  // Incrémente le compteur
   await prisma.downloadToken.update({
     where: { id: record.id },
-    data: { downloadCount: { increment: 1 } },
+    data: {
+      downloadCount: { increment: 1 },
+    },
   });
 
-  // 🔐 Génération URL S3 signée
-  const signedUrl = await generateSignedPdfUrl(
-    process.env.S3_PDF_KEY!
-  );
+  await prisma.downloadEvent.create({
+    data: {
+      downloadTokenId: record.id,
+    },
+  });
 
+  const key = process.env.S3_PDF_KEY;
+  if (!key) {
+    return new NextResponse("S3_PDF_KEY missing", { status: 500 });
+  }
+
+  const signedUrl = await generateSignedPdfUrl(key);
   return NextResponse.redirect(signedUrl);
 }
