@@ -10,6 +10,15 @@ export async function GET(
 
   const record = await prisma.downloadToken.findUnique({
     where: { token },
+    include: {
+      campaign: {
+        select: {
+          id: true,
+          title: true,
+          pdfKey: true,
+        },
+      },
+    },
   });
 
   if (!record) {
@@ -22,6 +31,12 @@ export async function GET(
 
   if (record.downloadCount >= record.maxDownloads) {
     return new NextResponse("Download limit reached", { status: 410 });
+  }
+
+  if (!record.campaign?.pdfKey) {
+    return new NextResponse("No PDF configured for this campaign", {
+      status: 500,
+    });
   }
 
   await prisma.downloadToken.update({
@@ -37,11 +52,7 @@ export async function GET(
     },
   });
 
-  const key = process.env.S3_PDF_KEY;
-  if (!key) {
-    return new NextResponse("S3_PDF_KEY missing", { status: 500 });
-  }
+  const signedUrl = await generateSignedPdfUrl(record.campaign.pdfKey);
 
-  const signedUrl = await generateSignedPdfUrl(key);
   return NextResponse.redirect(signedUrl);
 }
