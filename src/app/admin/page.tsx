@@ -57,22 +57,32 @@ async function getStats() {
       },
     }),
     prisma.campaign.findMany({
+  select: {
+    id: true,
+    title: true,
+    slug: true,
+    pdfKey: true,
+    pdfVariants: {
       select: {
         id: true,
-        title: true,
-        slug: true,
+        arrondissement: true,
         pdfKey: true,
-        _count: {
-          select: {
-            leads: true,
-            tokens: true,
-          },
-        },
       },
       orderBy: {
-        createdAt: "desc",
+        arrondissement: "asc",
       },
-    }),
+    },
+    _count: {
+      select: {
+        leads: true,
+        tokens: true,
+      },
+    },
+  },
+  orderBy: {
+    createdAt: "desc",
+  },
+}),
     prisma.lead.findMany({
       select: {
         arrondissement: true,
@@ -130,6 +140,8 @@ export default async function AdminPage(
       updated?: string | string[];
       uploaded?: string | string[];
       uploadError?: string | string[];
+      variantUpdated?: string | string[];
+      variantError?: string | string[];
     }>;
   }
 ) {
@@ -141,6 +153,13 @@ export default async function AdminPage(
   const uploadError = Array.isArray(sp.uploadError)
     ? sp.uploadError[0]
     : sp.uploadError;
+  const variantUpdated = Array.isArray(sp.variantUpdated)
+  ? sp.variantUpdated[0]
+  : sp.variantUpdated;
+
+  const variantError = Array.isArray(sp.variantError)
+  ? sp.variantError[0]
+  : sp.variantError;
 
   return (
     <main className="min-h-screen bg-zinc-100">

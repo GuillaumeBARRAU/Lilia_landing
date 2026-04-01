@@ -25,6 +25,8 @@ model Campaign {
   leads Lead[]
 
   tokens DownloadToken[]
+
+  pdfVariants CampaignPdfVariant[]
 }
 
 model Lead {
@@ -79,4 +81,17 @@ model DownloadEvent {
   token           DownloadToken @relation(fields: [downloadTokenId], references: [id])
 
   createdAt DateTime @default(now())
+}
+
+model CampaignPdfVariant {
+  id             String   @id @default(cuid())
+  campaignId     String
+  arrondissement String
+  pdfKey         String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  campaign Campaign @relation(fields: [campaignId], references: [id])
+
+  @@unique([campaignId, arrondissement])
 }

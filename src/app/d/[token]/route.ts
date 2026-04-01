@@ -18,6 +18,12 @@ export async function GET(
           pdfKey: true,
         },
       },
+      lead: {
+        select: {
+          id: true,
+          arrondissement: true,
+        },
+      },
     },
   });
 
@@ -33,7 +39,27 @@ export async function GET(
     return new NextResponse("Download limit reached", { status: 410 });
   }
 
-  if (!record.campaign?.pdfKey) {
+  let finalPdfKey = record.campaign.pdfKey;
+
+  if (record.lead?.arrondissement) {
+    const variant = await prisma.campaignPdfVariant.findUnique({
+      where: {
+        campaignId_arrondissement: {
+          campaignId: record.campaign.id,
+          arrondissement: record.lead.arrondissement,
+        },
+      },
+      select: {
+        pdfKey: true,
+      },
+    });
+
+    if (variant?.pdfKey) {
+      finalPdfKey = variant.pdfKey;
+    }
+  }
+
+  if (!finalPdfKey) {
     return new NextResponse("No PDF configured for this campaign", {
       status: 500,
     });
@@ -52,7 +78,7 @@ export async function GET(
     },
   });
 
-  const signedUrl = await generateSignedPdfUrl(record.campaign.pdfKey);
+  const signedUrl = await generateSignedPdfUrl(finalPdfKey);
 
   return NextResponse.redirect(signedUrl);
 }
