@@ -14,7 +14,6 @@ function isValidEmail(email: string) {
 export async function POST(req: Request) {
   const form = await req.formData();
 
-  // Honeypot anti-bot
   const website = String(form.get("website") ?? "");
   if (website) return NextResponse.json({ ok: true });
 
@@ -22,12 +21,21 @@ export async function POST(req: Request) {
   const email = String(form.get("email") ?? "").trim().toLowerCase();
   const phone = String(form.get("phone") ?? "").trim();
   const firstName = String(form.get("firstName") ?? "").trim();
+  const arrondissement = String(form.get("arrondissement") ?? "").trim();
   const privacyAccepted = form.get("privacyAccepted") != null;
   const marketingAccepted = form.get("marketingAccepted") != null;
 
-  if (!campaignSlug) return NextResponse.json({ error: "Missing campaignSlug" }, { status: 400 });
-  if (!privacyAccepted) return NextResponse.json({ error: "Privacy consent required" }, { status: 400 });
-  if (!email || !isValidEmail(email)) return NextResponse.json({ error: "Valid email required" }, { status: 400 });
+  if (!campaignSlug) {
+    return NextResponse.json({ error: "Missing campaignSlug" }, { status: 400 });
+  }
+
+  if (!privacyAccepted) {
+    return NextResponse.json({ error: "Privacy consent required" }, { status: 400 });
+  }
+
+  if (!email || !isValidEmail(email)) {
+    return NextResponse.json({ error: "Valid email required" }, { status: 400 });
+  }
 
   const campaign = await prisma.campaign.findUnique({
     where: { slug: campaignSlug },
@@ -39,9 +47,6 @@ export async function POST(req: Request) {
   }
 
   const now = new Date();
-
-  // 1) Anti spam : si un token valide récent existe, on ne recrée pas tout
-  // et on évite d'envoyer un email si ça vient d’être fait (cooldown 2 min)
   const cooldownAgo = new Date(Date.now() - 2 * 60 * 1000);
 
   const recentLead = await prisma.lead.findFirst({
@@ -55,25 +60,32 @@ export async function POST(req: Request) {
   });
 
   if (recentLead) {
+    await prisma.lead.update({
+      where: { id: recentLead.id },
+      data: {
+        arrondissement: arrondissement || undefined,
+        firstName: firstName || undefined,
+        phone: phone || undefined,
+      },
+    });
+
     const existingToken = await prisma.downloadToken.findFirst({
       where: {
         leadId: recentLead.id,
         expiresAt: { gt: now },
-        createdAt: { gte: cooldownAgo }, // token créé récemment
+        createdAt: { gte: cooldownAgo },
       },
       orderBy: { createdAt: "desc" },
-      select: { token: true, createdAt: true },
+      select: { token: true },
     });
 
     if (existingToken) {
-      // On ne renvoie pas d'email ici (cooldown), on renvoie juste /thanks
       return NextResponse.redirect(new URL(`/thanks`, req.url));
     }
   }
 
-  // 2) Création lead + token (transaction)
   const tokenValue = randomToken();
-  const expiresAt = new Date(Date.now() + 48 * 60 * 60 * 1000); // 48h
+  const expiresAt = new Date(Date.now() + 48 * 60 * 60 * 1000);
 
   const { lead, token } = await prisma.$transaction(async (tx) => {
     const createdLead = await tx.lead.create({
@@ -82,6 +94,7 @@ export async function POST(req: Request) {
         email,
         phone: phone || null,
         firstName: firstName || null,
+        arrondissement: arrondissement || null,
         consents: {
           create: [
             {
@@ -123,7 +136,6 @@ export async function POST(req: Request) {
     return { lead: createdLead, token: createdToken };
   });
 
-  // 3) Envoi email Brevo (token dans l'email, pas dans l'URL)
   const baseUrl = process.env.APP_URL;
   if (!baseUrl) {
     return NextResponse.json({ error: "APP_URL missing in .env" }, { status: 500 });
@@ -138,6 +150,5 @@ export async function POST(req: Request) {
     campaignTitle: campaign.title,
   });
 
-  // 4) Redirection UX
   return NextResponse.redirect(new URL(`/thanks`, req.url));
 }

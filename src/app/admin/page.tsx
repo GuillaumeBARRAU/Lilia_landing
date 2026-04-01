@@ -84,6 +84,7 @@ async function getStats() {
     leadCount > 0 ? Number(((downloadCount / leadCount) * 100).toFixed(2)) : 0;
 
   const arrondissementMap = new Map<string, number>();
+
   for (const lead of allLeads) {
     if (!lead.arrondissement) continue;
     arrondissementMap.set(
@@ -123,8 +124,23 @@ async function getStats() {
   };
 }
 
-export default async function AdminPage() {
+export default async function AdminPage(
+  props: {
+    searchParams: Promise<{
+      updated?: string | string[];
+      uploaded?: string | string[];
+      uploadError?: string | string[];
+    }>;
+  }
+) {
   const data = await getStats();
+
+  const sp = await props.searchParams;
+  const updated = Array.isArray(sp.updated) ? sp.updated[0] : sp.updated;
+  const uploaded = Array.isArray(sp.uploaded) ? sp.uploaded[0] : sp.uploaded;
+  const uploadError = Array.isArray(sp.uploadError)
+    ? sp.uploadError[0]
+    : sp.uploadError;
 
   return (
     <main className="min-h-screen bg-zinc-100">
@@ -138,7 +154,8 @@ export default async function AdminPage() {
               Pilotage de la landing
             </h1>
             <p className="mt-2 max-w-2xl text-sm text-zinc-600">
-              Suivi des leads, téléchargements, campagnes et zones les plus demandées.
+              Suivi des leads, téléchargements, campagnes et zones les plus
+              demandées.
             </p>
           </div>
 
@@ -149,18 +166,38 @@ export default async function AdminPage() {
 
             <a
               href="/api/admin/export"
-              className="inline-flex items-center justify-center rounded-2xl bg-black px-4 py-3 text-sm font-medium text-white hover:opacity-90 transition"
+              className="inline-flex items-center justify-center rounded-2xl bg-black px-4 py-3 text-sm font-medium text-white transition hover:opacity-90"
             >
               Export CSV
             </a>
 
             <form action="/api/admin/logout" method="POST">
-              <button className="w-full rounded-2xl border border-zinc-200 bg-white px-4 py-3 text-sm text-zinc-600 shadow-sm hover:bg-zinc-50 transition">
+              <button className="w-full rounded-2xl border border-zinc-200 bg-white px-4 py-3 text-sm text-zinc-600 shadow-sm transition hover:bg-zinc-50">
                 Déconnexion
               </button>
             </form>
           </div>
         </header>
+
+        {updated ? (
+          <div className="mb-4 rounded-2xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700">
+            Le PDF de la campagne a bien été mis à jour.
+          </div>
+        ) : null}
+
+        {uploaded ? (
+          <div className="mb-4 rounded-2xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700">
+            Le PDF a bien été uploadé sur S3 et associé à la campagne.
+          </div>
+        ) : null}
+
+        {uploadError ? (
+          <div className="mb-4 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+            {uploadError === "type"
+              ? "Le fichier doit être un PDF."
+              : "Une erreur est survenue pendant l’upload du PDF."}
+          </div>
+        ) : null}
 
         <section className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-5">
           <StatCard
@@ -344,13 +381,61 @@ export default async function AdminPage() {
                         </span>
                       </div>
 
-                      <div className="mt-3 rounded-xl border border-zinc-200 bg-white p-3">
-                        <p className="text-xs uppercase tracking-[0.2em] text-zinc-400">
-                          PDF actuel
-                        </p>
-                        <p className="mt-1 break-all text-sm text-zinc-700">
-                          {campaign.pdfKey}
-                        </p>
+                      <div className="mt-3 space-y-3 rounded-xl border border-zinc-200 bg-white p-3">
+                        <form
+                          action={`/api/admin/campaigns/${campaign.id}`}
+                          method="POST"
+                          className="space-y-3"
+                        >
+                          <div>
+                            <p className="text-xs uppercase tracking-[0.2em] text-zinc-400">
+                              PDF actuel
+                            </p>
+                            <input
+                              type="text"
+                              name="pdfKey"
+                              defaultValue={campaign.pdfKey}
+                              className="mt-2 w-full rounded-xl border border-zinc-300 bg-white p-3 text-sm text-zinc-700 outline-none transition focus:border-zinc-500"
+                              placeholder="Ex: Guide Immo Lilia 13013.pdf"
+                            />
+                            <p className="mt-2 text-xs text-zinc-500">
+                              Le nom doit correspondre exactement au fichier
+                              présent dans S3.
+                            </p>
+                          </div>
+
+                          <button className="inline-flex items-center justify-center rounded-xl bg-black px-4 py-2 text-sm font-medium text-white transition hover:opacity-90">
+                            Enregistrer le PDF
+                          </button>
+                        </form>
+
+                        <form
+                          action={`/api/admin/campaigns/${campaign.id}/upload`}
+                          method="POST"
+                          encType="multipart/form-data"
+                          className="space-y-3 border-t border-zinc-200 pt-3"
+                        >
+                          <div>
+                            <p className="text-xs uppercase tracking-[0.2em] text-zinc-400">
+                              Uploader un nouveau PDF
+                            </p>
+                            <input
+                              type="file"
+                              name="pdf"
+                              accept="application/pdf"
+                              required
+                              className="mt-2 block w-full text-sm text-zinc-700 file:mr-4 file:rounded-xl file:border-0 file:bg-zinc-900 file:px-4 file:py-2 file:text-sm file:font-medium file:text-white hover:file:opacity-90"
+                            />
+                            <p className="mt-2 text-xs text-zinc-500">
+                              Le PDF sera envoyé sur S3 puis automatiquement
+                              associé à cette campagne.
+                            </p>
+                          </div>
+
+                          <button className="inline-flex items-center justify-center rounded-xl border border-zinc-300 bg-zinc-100 px-4 py-2 text-sm font-medium text-zinc-800 transition hover:bg-zinc-200">
+                            Uploader le PDF
+                          </button>
+                        </form>
                       </div>
                     </div>
                   ))
