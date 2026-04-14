@@ -2,24 +2,26 @@ import { PrismaClient } from "@/generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { Pool } from "pg";
 
-const globalForDb = globalThis as unknown as {
+const DATABASE_URL = process.env.DATABASE_URL;
+
+if (!DATABASE_URL) {
+  throw new Error("DATABASE_URL is missing");
+}
+
+const globalForPrisma = globalThis as typeof globalThis & {
   prisma?: PrismaClient;
-  pool?: Pool;
 };
 
-export const pool =
-  globalForDb.pool ??
-  new Pool({
-    connectionString: process.env.DATABASE_URL,
-  });
-
 export const prisma =
-  globalForDb.prisma ??
+  globalForPrisma.prisma ??
   new PrismaClient({
-    adapter: new PrismaPg(pool),
+    adapter: new PrismaPg(
+      new Pool({
+        connectionString: DATABASE_URL,
+      })
+    ),
   });
 
 if (process.env.NODE_ENV !== "production") {
-  globalForDb.pool = pool;
-  globalForDb.prisma = prisma;
+  globalForPrisma.prisma = prisma;
 }
