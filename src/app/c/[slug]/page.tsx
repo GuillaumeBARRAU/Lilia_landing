@@ -110,7 +110,7 @@ export default async function CampaignPage(
           </div>
 
           <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2">
-            <MiniInfo text="Approche 100% Marseille" />
+            <MiniInfo text="Approche 100% locale" />
             <MiniInfo text="Conseils concrets et actionnables" />
             <MiniInfo text="Téléchargement sécurisé par email" />
             <MiniInfo text="Aucun spam, données protégées" />
