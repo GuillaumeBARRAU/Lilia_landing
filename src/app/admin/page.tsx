@@ -1,4 +1,6 @@
 import { prisma } from "@/lib/db";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 function formatDate(date: string | Date) {
   return new Intl.DateTimeFormat("fr-FR", {
