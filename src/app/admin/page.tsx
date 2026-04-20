@@ -1,7 +1,13 @@
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import { prisma } from "@/lib/db";
+import AdminResetButton from "@/components/admin/AdminResetButton";
+
+
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
-import AdminResetButton from "@/components/admin/AdminResetButton";
+
+
 
 function formatDate(date: string | Date) {
   return new Intl.DateTimeFormat("fr-FR", {
@@ -148,6 +154,13 @@ export default async function AdminPage(
     }>;
   }
 ) {
+  const cookieStore = await cookies();
+  const session = cookieStore.get("admin_session");
+
+  if (!session || session.value !== "authenticated") {
+    redirect("/login");
+  }
+
   const data = await getStats();
 
   const sp = await props.searchParams;
