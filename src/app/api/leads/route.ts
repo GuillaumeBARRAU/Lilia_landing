@@ -80,7 +80,7 @@ export async function POST(req: Request) {
     });
 
     if (existingToken) {
-      return NextResponse.redirect(new URL(`/thanks`, req.url));
+      return NextResponse.redirect(new URL(`/thanks`, req.url), 303);
     }
   }
 
@@ -150,5 +150,5 @@ export async function POST(req: Request) {
     campaignTitle: campaign.title,
   });
 
-  return NextResponse.redirect(new URL(`/thanks`, req.url));
+  return NextResponse.redirect(new URL(`/thanks`, req.url), 303);
 }
