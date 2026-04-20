@@ -21,19 +21,19 @@ export default async function CampaignPage(
   }
 
   return (
-    <main className="min-h-screen bg-[#f7f5f2] text-zinc-900">
+    <main className="min-h-screen bg-[#f7f5f2] text-[#111111]">
       {/* HEADER */}
-      <header className="sticky top-0 z-30 border-b border-zinc-200 bg-white/90 backdrop-blur">
+      <header className="sticky top-0 z-30 border-b border-[#B8B2A8] bg-white/90 backdrop-blur">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
           <div className="flex items-center gap-3">
             <img
               src="/lilia-photo.jpg"
               alt="Lilia Dieb"
-              className="h-11 w-11 rounded-full border border-zinc-200 object-cover"
+              className="h-11 w-11 rounded-full border border-[#B8B2A8] object-cover"
             />
             <div>
               <p className="text-lg font-bold tracking-tight">Lilia Dieb</p>
-              <p className="text-xs uppercase tracking-[0.2em] text-zinc-500">
+              <p className="text-xs uppercase tracking-[0.2em] text-[#6f6a63]">
                 Immobilier Marseille
               </p>
             </div>
@@ -51,35 +51,52 @@ export default async function CampaignPage(
       {/* HERO */}
       <section className="mx-auto grid max-w-7xl gap-12 px-6 py-16 md:grid-cols-2 md:items-center lg:py-24">
         {/* LEFT */}
-        <div className="relative">
-          <div className="overflow-hidden rounded-[2rem] border border-zinc-200 bg-white shadow-xl">
-            <img
-              src="/lilia-photo.jpg"
-              alt="Lilia Dieb - Immobilier Marseille"
-              className="h-full w-full object-cover"
-            />
-          </div>
+<div className="relative">
+  <div className="mb-4 flex items-center justify-center rounded-2xl border border-[#B8B2A8] bg-white px-6 py-4 shadow-sm">
+    <div className="text-center">
+      <p className="text-xs font-medium uppercase tracking-[0.2em] text-[#C26A4A]">
+        Partenaire
+      </p>
+      <div className="mt-3 flex items-center justify-center">
+        <img
+          src="/logo-partenaire.png"
+          alt="Logo partenaire"
+          className="max-h-14 w-auto object-contain"
+        />
+      </div>
+    </div>
+  </div>
 
-          <div className="absolute -left-4 top-6 rounded-2xl border border-zinc-200 bg-white px-4 py-3 shadow-lg">
-            <p className="text-xs font-medium uppercase tracking-[0.2em] text-zinc-500">
-              Marseille
-            </p>
-            <p className="mt-1 text-sm font-semibold">Expertise locale</p>
-          </div>
+  <div className="overflow-hidden rounded-[2rem] border border-[#B8B2A8] bg-white shadow-xl">
+    <img
+      src="/lilia-photo.jpg"
+      alt="Lilia Dieb - Immobilier Marseille"
+      className="h-full w-full object-cover"
+    />
+  </div>
 
-          <div className="absolute -bottom-5 right-4 rounded-2xl border border-zinc-200 bg-[#f4e8dc] px-5 py-4 shadow-lg">
-            <p className="text-xs font-medium uppercase tracking-[0.2em] text-zinc-600">
-              Guide offert
-            </p>
-            <p className="mt-1 text-sm font-semibold">
-              Conseils pratiques + vision terrain
-            </p>
-          </div>
-        </div>
+  <div className="absolute -left-4 top-28 rounded-2xl border border-[#B8B2A8] bg-white px-4 py-3 shadow-lg">
+    <p className="text-xs font-medium uppercase tracking-[0.2em] text-[#C26A4A]">
+      Marseille
+    </p>
+    <p className="mt-1 text-sm font-semibold text-[#111111]">
+      Expertise locale
+    </p>
+  </div>
+
+  <div className="absolute -bottom-5 right-4 rounded-2xl border border-[#B8B2A8] bg-[#FAF9F7] px-5 py-4 shadow-lg">
+    <p className="text-xs font-medium uppercase tracking-[0.2em] text-[#C26A4A]">
+      Guide offert
+    </p>
+    <p className="mt-1 text-sm font-semibold text-[#111111]">
+      Conseils pratiques + vision terrain
+    </p>
+  </div>
+</div>
 
         {/* RIGHT */}
         <div>
-          <span className="inline-flex rounded-full border border-zinc-300 bg-white px-4 py-1.5 text-sm text-zinc-600 shadow-sm">
+          <span className="inline-flex rounded-full border border-zinc-300 bg-white px-4 py-1.5 text-sm text-zinc-[#6f6a63] shadow-sm">
             Guide immobilier gratuit
           </span>
 
@@ -88,7 +105,7 @@ export default async function CampaignPage(
             immobilier à Marseille.
           </h1>
 
-          <p className="mt-5 max-w-xl text-lg leading-8 text-zinc-600">
+          <p className="mt-5 max-w-xl text-lg leading-8 text-zinc-[#6f6a63]">
             Recevez un guide clair et pratique pour mieux comprendre votre
             marché, éviter les erreurs fréquentes et prendre de meilleures
             décisions, avec une approche locale et humaine.
@@ -103,7 +120,7 @@ export default async function CampaignPage(
             </a>
             <a
               href="#contenu"
-              className="inline-flex items-center justify-center rounded-full border border-zinc-300 bg-white px-6 py-3 text-sm font-medium text-zinc-700 transition hover:bg-zinc-50"
+              className="inline-flex items-center justify-center rounded-full border border-zinc-300 bg-white px-6 py-3 text-sm font-medium text-zinc-[#6f6a63] transition hover:bg-zinc-50"
             >
               Voir le contenu
             </a>
@@ -125,7 +142,7 @@ export default async function CampaignPage(
             <p className="text-sm font-medium uppercase tracking-[0.2em] text-zinc-500">
               En collaboration avec
             </p>
-            <p className="mt-2 text-sm text-zinc-600">
+            <p className="mt-2 text-sm text-zinc-[#6f6a63]">
               Une expertise renforcée par des partenaires de confiance.
             </p>
           </div>
@@ -170,7 +187,7 @@ export default async function CampaignPage(
           <h2 className="mt-3 text-3xl font-bold tracking-tight">
             Un guide simple, utile et pensé pour mieux décider.
           </h2>
-          <p className="mt-4 text-zinc-600">
+          <p className="mt-4 text-zinc-[#6f6a63]">
             Une lecture claire pour mieux comprendre votre projet immobilier,
             repérer les points de vigilance et avancer plus sereinement.
           </p>
@@ -202,7 +219,7 @@ export default async function CampaignPage(
             <h2 className="mt-3 text-3xl font-bold tracking-tight">
               Une approche humaine et centrée sur Marseille.
             </h2>
-            <p className="mt-4 leading-8 text-zinc-600">
+            <p className="mt-4 leading-8 text-zinc-[#6f6a63]">
               L’objectif est de proposer une lecture terrain plus claire, plus
               concrète et plus adaptée aux réalités immobilières locales.
               L’approche est pensée pour évoluer ensuite par arrondissement.
@@ -219,13 +236,13 @@ export default async function CampaignPage(
             id="formulaire"
             className="rounded-[2rem] border border-zinc-200 bg-[#f7f5f2] p-6 shadow-lg md:p-8"
           >
-            <p className="text-sm font-medium uppercase tracking-[0.2em] text-zinc-500">
+            <p className="text-sm font-medium uppercase tracking-[0.2em] text-zinc-[#6f6a63]">
               Recevoir le guide
             </p>
             <h3 className="mt-3 text-2xl font-bold tracking-tight">
               Téléchargement gratuit
             </h3>
-            <p className="mt-2 text-sm leading-6 text-zinc-600">
+            <p className="mt-2 text-sm leading-6 text-zinc-[#6f6a63]">
               Renseignez votre email pour recevoir votre lien sécurisé.
             </p>
 
@@ -283,7 +300,7 @@ export default async function CampaignPage(
                 autoComplete="off"
               />
 
-              <label className="flex items-start gap-3 text-sm text-zinc-600">
+              <label className="flex items-start gap-3 text-sm text-zinc-[#6f6a63]">
                 <input
                   type="checkbox"
                   name="privacyAccepted"
@@ -293,7 +310,7 @@ export default async function CampaignPage(
                 <span>J’accepte la politique de confidentialité.</span>
               </label>
 
-              <label className="flex items-start gap-3 text-sm text-zinc-600">
+              <label className="flex items-start gap-3 text-sm text-zinc-[#6f6a63]">
                 <input
                   type="checkbox"
                   name="marketingAccepted"
@@ -308,7 +325,7 @@ export default async function CampaignPage(
                 Recevoir le guide
               </button>
 
-              <p className="text-xs leading-5 text-zinc-500">
+              <p className="text-xs leading-5 text-zinc-[#6f6a63]">
                 Lien envoyé par email • téléchargement sécurisé • aucun spam
               </p>
             </form>
@@ -328,13 +345,13 @@ export default async function CampaignPage(
           </div>
 
           <div>
-            <p className="text-sm font-medium uppercase tracking-[0.2em] text-zinc-500">
+            <p className="text-sm font-medium uppercase tracking-[0.2em] text-zinc-[#6f6a63]">
               Votre contact
             </p>
-            <h2 className="mt-3 text-2xl font-bold tracking-tight text-zinc-900">
+            <h2 className="mt-3 text-2xl font-bold tracking-tight text-[#111111]">
               Une présence locale, une approche claire
             </h2>
-            <p className="mt-4 leading-8 text-zinc-600">
+            <p className="mt-4 leading-8 text-zinc-[#6f6a63]">
               Lilia Dieb accompagne les projets immobiliers à Marseille avec une
               approche accessible, structurée et orientée terrain. L’objectif :
               aider à mieux comprendre, mieux préparer et mieux avancer.
@@ -344,8 +361,8 @@ export default async function CampaignPage(
       </section>
 
       {/* FOOTER */}
-      <footer className="border-t border-zinc-200 bg-[#f7f5f2]">
-        <div className="mx-auto flex max-w-7xl flex-col gap-3 px-6 py-8 text-sm text-zinc-500 md:flex-row md:items-center md:justify-between">
+      <footer className="border-t border-zinc-[#B8B2A8] bg-[#f7f5f2]">
+        <div className="mx-auto flex max-w-7xl flex-col gap-3 px-6 py-8 text-sm text-zinc-[#6f6a63] md:flex-row md:items-center md:justify-between">
           <p>© Lilia Dieb — Immobilier Marseille</p>
           <p>Guide gratuit • Téléchargement sécurisé • Données protégées</p>
         </div>
@@ -357,27 +374,27 @@ export default async function CampaignPage(
 function Stat({ value, label }: { value: string; label: string }) {
   return (
     <div>
-      <p className="text-4xl font-bold tracking-tight text-zinc-900">{value}</p>
-      <p className="mt-2 text-sm text-zinc-500">{label}</p>
+      <p className="text-4xl font-bold tracking-tight text-[#111111]">{value}</p>
+      <p className="mt-2 text-sm text-zinc-[#6f6a63]">{label}</p>
     </div>
   );
 }
 
 function FeatureCard({ title, text }: { title: string; text: string }) {
   return (
-    <div className="rounded-[2rem] border border-zinc-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md">
+    <div className="rounded-[2rem] border border-zinc-[#B8B2A8] bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md">
       <div className="mb-4 h-11 w-11 rounded-2xl bg-[#f4e8dc]" />
-      <h3 className="text-lg font-semibold tracking-tight text-zinc-900">
+      <h3 className="text-lg font-semibold tracking-tight text-[#111111]">
         {title}
       </h3>
-      <p className="mt-3 text-sm leading-7 text-zinc-600">{text}</p>
+      <p className="mt-3 text-sm leading-7 text-zinc-[#6f6a63]">{text}</p>
     </div>
   );
 }
 
 function MiniInfo({ text }: { text: string }) {
   return (
-    <div className="rounded-2xl border border-zinc-200 bg-white px-4 py-3 text-sm text-zinc-700 shadow-sm">
+    <div className="rounded-2xl border border-zinc-[#B8B2A8] bg-white px-4 py-3 text-sm text-zinc-[#6f6a63] shadow-sm">
       {text}
     </div>
   );
@@ -387,7 +404,7 @@ function Bullet({ text }: { text: string }) {
   return (
     <div className="flex items-start gap-3">
       <span className="mt-2 h-2.5 w-2.5 rounded-full bg-zinc-900" />
-      <p className="text-zinc-700">{text}</p>
+      <p className="text-zinc-[#6f6a63]">{text}</p>
     </div>
   );
 }

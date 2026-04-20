@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/db";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
+import AdminResetButton from "@/components/admin/AdminResetButton";
 
 function formatDate(date: string | Date) {
   return new Intl.DateTimeFormat("fr-FR", {
@@ -199,6 +200,7 @@ export default async function AdminPage(
             </form>
           </div>
         </header>
+        <AdminResetButton />
 
         {updated ? (
           <div className="mb-4 rounded-2xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700">
