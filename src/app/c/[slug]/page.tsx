@@ -51,19 +51,19 @@ export default async function CampaignPage(
       {/* HERO */}
       <section className="mx-auto grid max-w-7xl gap-12 px-6 py-16 md:grid-cols-2 md:items-center lg:py-24">
         {/* LEFT */}
+{/* LEFT */}
 <div className="relative">
-  <div className="mb-4 flex items-center justify-center rounded-2xl border border-[#B8B2A8] bg-white px-6 py-4 shadow-sm">
-    <div className="text-center">
-      <p className="text-xs font-medium uppercase tracking-[0.2em] text-[#C26A4A]">
-        Partenaire
-      </p>
-      <div className="mt-3 flex items-center justify-center">
-        <img
-          src="/logo-partenaire.png"
-          alt="Logo partenaire"
-          className="max-h-14 w-auto object-contain"
-        />
-      </div>
+  <div className="mb-4 rounded-[1.5rem] border border-[#B8B2A8] bg-white px-6 py-5 shadow-sm">
+    <p className="text-center text-xs font-medium uppercase tracking-[0.25em] text-[#C26A4A]">
+      Partenaire
+    </p>
+
+    <div className="mt-4 flex items-center justify-center">
+      <img
+        src="/logo-partenaire.png"
+        alt="Logo partenaire"
+        className="h-24 w-auto object-contain md:h-28"
+      />
     </div>
   </div>
 
@@ -75,7 +75,7 @@ export default async function CampaignPage(
     />
   </div>
 
-  <div className="absolute -left-4 top-28 rounded-2xl border border-[#B8B2A8] bg-white px-4 py-3 shadow-lg">
+  <div className="absolute -left-4 top-32 rounded-2xl border border-[#B8B2A8] bg-white px-4 py-3 shadow-lg">
     <p className="text-xs font-medium uppercase tracking-[0.2em] text-[#C26A4A]">
       Marseille
     </p>
@@ -135,27 +135,6 @@ export default async function CampaignPage(
         </div>
       </section>
 
-      {/* PARTNER */}
-      <section className="border-y border-zinc-200 bg-white">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-6 py-8 md:flex-row">
-          <div>
-            <p className="text-sm font-medium uppercase tracking-[0.2em] text-zinc-500">
-              En collaboration avec
-            </p>
-            <p className="mt-2 text-sm text-zinc-[#6f6a63]">
-              Une expertise renforcée par des partenaires de confiance.
-            </p>
-          </div>
-
-          <div className="flex items-center justify-center rounded-2xl border border-zinc-200 bg-zinc-50 px-6 py-4 shadow-sm">
-            <img
-              src="/logo-partenaire.png"
-              alt="Logo partenaire"
-              className="max-h-14 w-auto object-contain"
-            />
-          </div>
-        </div>
-      </section>
 
       {/* STATS */}
       <section className="bg-white">
