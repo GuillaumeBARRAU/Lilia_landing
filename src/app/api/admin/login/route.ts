@@ -1,30 +1,29 @@
-import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(req: Request) {
-  const form = await req.formData();
-  const password = String(form.get("password") ?? "");
+export async function POST(req: NextRequest) {
+  const formData = await req.formData();
+  const password = String(formData.get("password") ?? "");
 
   if (!process.env.ADMIN_PASSWORD) {
     return NextResponse.json(
-      { error: "ADMIN_PASSWORD missing in .env" },
+      { error: "ADMIN_PASSWORD missing" },
       { status: 500 }
     );
   }
 
   if (password !== process.env.ADMIN_PASSWORD) {
-    return NextResponse.redirect(new URL("/login?error=1", req.url));
+    return NextResponse.redirect(new URL("/login?error=invalid", req.url), 303);
   }
 
-  const cookieStore = await cookies();
+  const response = NextResponse.redirect(new URL("/admin", req.url), 303);
 
-  cookieStore.set("admin_session", "ok", {
-    httpOnly: true,
-    sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
-    path: "/",
-    maxAge: 60 * 60 * 8, // 8h
-  });
+response.cookies.set("admin_session", "authenticated", {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === "production",
+  sameSite: "lax",
+  path: "/",
+  maxAge: 60 * 60 * 8,
+});
 
-  return NextResponse.redirect(new URL("/admin", req.url));
+  return response;
 }
