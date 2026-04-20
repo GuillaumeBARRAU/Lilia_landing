@@ -62,7 +62,7 @@ export default async function CampaignPage(
       <img
         src="/logo-partenaire.png"
         alt="Logo partenaire"
-        className="h-24 w-auto object-contain md:h-28"
+        className="h-28 w-auto object-contain md:h-32"
       />
     </div>
   </div>
