@@ -53,19 +53,17 @@ export default async function CampaignPage(
         {/* LEFT */}
 {/* LEFT */}
 <div className="relative">
-  <div className="mb-4 rounded-[1.5rem] border border-[#B8B2A8] bg-white px-6 py-5 shadow-sm">
-    <p className="text-center text-xs font-medium uppercase tracking-[0.25em] text-[#C26A4A]">
-      Partenaire
-    </p>
+  <div className="mb-4 inline-flex flex-col items-center rounded-[1.5rem] border border-[#B8B2A8] bg-white px-6 py-4 shadow-sm">
+  <p className="text-xs font-medium uppercase tracking-[0.25em] text-[#C26A4A]">
+    Partenaire
+  </p>
 
-    <div className="mt-4 flex items-center justify-center">
-      <img
-        src="/logo-partenaire.png"
-        alt="Logo partenaire"
-        className="h-28 w-auto object-contain md:h-32"
-      />
-    </div>
-  </div>
+  <img
+    src="/logo-partenaire.png"
+    alt="Logo partenaire"
+    className="mt-3 h-20 w-auto object-contain"
+  />
+</div>
 
   <div className="overflow-hidden rounded-[2rem] border border-[#B8B2A8] bg-white shadow-xl">
     <img
