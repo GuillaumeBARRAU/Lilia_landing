@@ -201,13 +201,12 @@ export default async function CampaignPage(
             <p className="mt-4 leading-8 text-zinc-[#6f6a63]">
               L’objectif est de proposer une lecture terrain plus claire, plus
               concrète et plus adaptée aux réalités immobilières locales.
-              L’approche est pensée pour évoluer ensuite par arrondissement.
-            </p>
+                  </p>
 
             <div className="mt-6 space-y-3">
               <Bullet text="Vision terrain et accompagnement local" />
-              <Bullet text="Conseils accessibles, sans jargon inutile" />
-              <Bullet text="Base prête à évoluer selon les arrondissements" />
+              <Bullet text="Conseils accessibles" />
+              <Bullet text="Guide pratique et concret" />
             </div>
           </div>
 
