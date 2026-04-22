@@ -331,12 +331,33 @@ export default async function CampaignPage(
       </section>
 
       {/* FOOTER */}
-      <footer className="border-t border-[#B8B2A8] bg-[#FAF9F7]">
-        <div className="mx-auto flex max-w-7xl flex-col gap-3 px-6 py-8 text-sm text-[#6F6A63] md:flex-row md:items-center md:justify-between">
-          <p>© Lilia Dieb — Immobilier Marseille</p>
-          <p>Guide gratuit • Téléchargement sécurisé • Données protégées</p>
-        </div>
-      </footer>
+     <footer className="border-t border-[#B8B2A8] bg-[#FAF9F7]">
+  <div className="mx-auto flex max-w-7xl flex-col gap-5 px-6 py-8 text-sm text-[#6F6A63] md:flex-row md:items-center md:justify-between">
+    <div className="flex flex-col gap-2">
+      <p>© Lilia Dieb — Immobilier Marseille</p>
+      <p>Guide gratuit • Téléchargement sécurisé • Données protégées</p>
+    </div>
+
+    <a
+      href="https://aidezmoi.online/"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group inline-flex items-center gap-3 self-start rounded-full border border-[#B8B2A8] bg-white px-4 py-2 shadow-sm transition hover:border-[#C26A4A] hover:bg-[#FFFDFB]"
+    >
+      <img
+        src="/bang-dev-logo.png"
+        alt="BANG DEV"
+        className="h-8 w-auto object-contain"
+      />
+      <span className="text-sm font-medium text-[#111111]">
+        Créé par{" "}
+        <span className="text-[#C26A4A] transition group-hover:opacity-80">
+          BANG DEV
+        </span>
+      </span>
+    </a>
+  </div>
+</footer>
     </main>
   );
 }
